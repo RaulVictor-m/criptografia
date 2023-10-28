@@ -5,12 +5,34 @@
 def cesar_encript(text, key):
     encript_text = "" # variavel que vai conter o novo texto gerado 
     for letra in text:
+
         ascii_num = ord(letra)
-        ascii_num += key # shift pela chave 
+
+        if ascii_num <= ord('Z') and ascii_num >= ord('A') : # checando se a letra a maiuscula ou minuscula
+            case = ord('A')
+            ascii_num -= case # subitraindo a letra A pra que ele fique em um range de 1 a 26
+
+
+            ascii_num += key # shift pela chave 
+            ascii_num = ascii_num % 26 # modulo de 26 pra que ele volte para o 0 caso passe das 26 letras
+
+            ascii_num += case # voltando o numero pro seu lugar
+            
+        elif ascii_num <= ord('z') and ascii_num >= ord('a'):
+            case = ord('a')
+            ascii_num -= case # subitraindo a letra A pra que ele fique em um range de 1 a 26
+
+            ascii_num += key # shift pela chave 
+            ascii_num = ascii_num % 26 # modulo de 26 pra que ele volte para o 0 caso passe das 26 letras
+
+            ascii_num += case # voltando o numero pro seu lugar
 
         encript_text += chr(ascii_num)
         
     return encript_text
+
+def cesar_decript(text, key):
+    return cesar_encript(text, key * -1)
 
 
 
@@ -67,15 +89,9 @@ def rc4_encript(text, key):
         # variavel K e o index do nosso valor chave em s_vec
         k = (s_vec[i] + s_vec[j]) % 256
         encript_text += chr(ord(letra) ^ s_vec[k])
-        
+
     return encript_text
 
-text = input("coloque seu texto aqui:  ")
-key = input("coloque sua chave aqui:   ")
-text = rc4_encript(text, key)
-print(text)
-text = rc4_encript(text, key)
-print(text)
-
-    
+def rc4_decript(text, key):
+    return rc4_encript(text, key)
 
